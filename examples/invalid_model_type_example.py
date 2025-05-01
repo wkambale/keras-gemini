@@ -1,14 +1,14 @@
 from keras_gemini import KerasGemini
-from gemini import Gemini
+import google.generativeai as genai
 
 # Initialize Gemini and the KerasGeminiPlugin
-gemini = Gemini()
-keras_plugin = KerasGemini(gemini)
-gemini.add_plugin(keras_plugin)
+genai.configure(api_key="YOUR_API_KEY")
+model = genai.GenerativeModel(model_name='gemini-pro')
+keras_plugin = KerasGemini(model)
 
 # Example: Attempt to build a convolutional model (unsupported)
 prompt = "Build a 4-layer convolutional network"
-response = gemini.run(prompt)
+response = model.generate_content(prompt)  
 
 print(response)  # Should indicate the model type is unsupported
 

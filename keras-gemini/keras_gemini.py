@@ -1,24 +1,24 @@
-import re
 from typing import Union
-from gemini import Gemini, Plugin
+import google.generativeai as genai 
 from keras import layers, models
 
-class KerasGemini(Plugin):
-    def __init__(self, gemini: Gemini):
-        super().__init__(gemini)
+class KerasGemini():
+    def __init__(self, ):
+        
         self.model = None
 
     def on_init(self):
         print("Keras plugin initialized.")
 
     def post(self, prompt: str, response: str) -> str:
+        model = genai.GenerativeModel(model_name="gemini-pro")
         if prompt.startswith("Build a"):
             # Extract model specifications from prompt using regular expressions
             match = re.search(
                 r"Build a (?P<layers>\d+)-layer (?P<type>\w+) model", prompt
             )
             if match:
-                num_layers = int(match.group("layers"))
+               num_layers = int(match.group("layers"))
                 model_type = match.group("type")
 
                 # Build the Keras model based on extracted information

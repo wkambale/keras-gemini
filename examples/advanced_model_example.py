@@ -1,15 +1,14 @@
 from keras_gemini import KerasGemini
-from gemini import Gemini
+import google.generativeai as genai
 
 # Initialize Gemini and the KerasGeminiPlugin
-gemini = Gemini()
-keras_plugin = KerasGemini(gemini)
-gemini.add_plugin(keras_plugin)
-
-# Example: Build a 5-layer sequential model with more natural language
-prompt = "Please create a 5-layer sequential network for me"
-response = gemini.run(prompt)
-
+genai.configure(api_key="YOUR API KEY")
+model = genai.GenerativeModel('gemini-pro')
+keras_plugin = KerasGemini(model)
+# Example: Build a  sequential model with more natural language and a training process
+prompt = "build a sequential model with 5 layers and train it"
+response = model.generate_content(prompt)
+print("response from the model")
 print(response)  # Should indicate the model was built successfully
 
 # Display the model summary

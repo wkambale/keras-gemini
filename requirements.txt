@@ -1,5 +1,4 @@
 tensorflow
 keras
-gemini-python
+google-generativeai
 nltk
-re

@@ -1,14 +1,17 @@
-from keras_gemini import KerasGemini
-from gemini import Gemini
+import google.generativeai as genai
+import os
+from keras_gemini import KerasGemini  # Assuming this is the class for interacting with the API
 
-# Initialize Gemini and the KerasGeminiPlugin
-gemini = Gemini()
-keras_plugin = KerasGemini(gemini)
-gemini.add_plugin(keras_plugin)
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+genai.configure(api_key=GOOGLE_API_KEY)
+
+# Initialize the Generative Model and the KerasGeminiPlugin
+model = genai.GenerativeModel('gemini-pro')
+keras_plugin = KerasGemini(model)
 
 # Example: Build a basic 3-layer sequential model
 prompt = "Build a 3-layer sequential model"
-response = gemini.run(prompt)
+response = keras_plugin.generate_content(prompt)
 
 print(response)  # Should indicate the model was built successfully
 

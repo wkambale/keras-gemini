@@ -1,5 +1,8 @@
 # keras-gemini
 
+[![Release](https://img.shields.io/pypi/v/keras-gemini?label=Release&style=flat-square)](https://pypi.org/project/keras-gemini/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Python package that combines the power of Keras with Gemini for natural language-driven neural network building.
 
 ### Built With
@@ -41,11 +44,15 @@ python examples/build_basic_model.py
 ```
 
 ## Features
-- Natural Language Model Building: Build Keras sequential models by simply describing the desired architecture in natural language. For example:
+- Natural Language Model Building: Build Keras sequential models by simply describing the desired architecture in natural language.
 
-`Build a 3-layer sequential model`
+For example: `Build a 3-layer sequential model`
 
-- Automatic Model Compilation: The package automatically compiles the generated Keras model with default settings (optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy']).
+- Automatic Model Compilation: The package automatically compiles the generated Keras model with default settings: 
+
+- `optimizer='adam'`
+- `loss='sparse_categorical_crossentropy'`
+- `metrics=['accuracy']`
 
 - Seamless Integration with Gemini: The `KerasGemini()` integrates directly into your Gemini chatbot flow, allowing for natural conversational model building.
 

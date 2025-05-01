@@ -1,40 +1,40 @@
 import pytest
 from keras_gemini import KerasGemini, prompt_to_keras
-from gemini import Gemini
 
+import google.generativeai as genai
 # Test cases for the keras_gemini package
 
 @pytest.fixture
-def gemini_instance():
+def genai_instance():
     """Creates a Gemini instance with the KerasGeminiPlugin for testing."""
-    gemini = Gemini()
-    keras_plugin = KerasGemini(gemini)
-    gemini.add_plugin(keras_plugin)
+    genai_model = genai.GenerativeModel("gemini-pro")
+    keras_plugin = KerasGemini(genai_model)
+    
     return keras_plugin
 
 
-def test_plugin_initialization(gemini_instance):
+def test_plugin_initialization(genai_instance):
     """Test if the KerasGeminiPlugin is initialized correctly."""
-    assert gemini_instance.model is None, "Model should be None on initialization."
+    assert genai_instance.model is None, "Model should be None on initialization."
 
-
-def test_build_keras_model_sequential(gemini_instance):
+def test_build_keras_model_sequential(genai_instance):
     """Test if the plugin correctly builds a 3-layer sequential model."""
     prompt = "Build a 3-layer sequential model"
-    response = gemini_instance.gemini.run(prompt)
+    response = genai_instance.model.generate_content(prompt).text
     assert "Model built successfully." in response, "Model was not built successfully."
 
     # Check if model is correctly created
-    model = gemini_instance.model
+    model = genai_instance.model
     assert model is not None, "Model should not be None after building."
+
     assert len(model.layers) == 4, "Model should have 4 layers (3 hidden + 1 output)."
     assert model.layers[-1].activation.__name__ == "softmax", "Output layer should have softmax activation."
 
 
-def test_invalid_model_type(gemini_instance):
+def test_invalid_model_type(genai_instance):
     """Test if the plugin handles invalid model types correctly."""
     prompt = "Build a 3-layer convolutional model"
-    response = gemini_instance.gemini.run(prompt)
+    response = genai_instance.model.generate_content(prompt).text
     assert "Unsupported model type" in response, "Invalid model type was not handled correctly."
 
 
